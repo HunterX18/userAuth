@@ -35,19 +35,14 @@ const Home = () => {
 				setData(result);
 				setLoading(false);
 			})
-			.catch((err) => 
-			{
+			.catch((err) => {
 				console.log(err);
-				console.log('here')
+				console.log("here");
 			});
-
 	}, []);
 
 	const handleRead = (ind) => {
 		dispatch({ type: "read", title: ind.title });
-	};
-	const handleUnread = (ind) => {
-		dispatch({ type: "unread", title: ind.title });
 	};
 	const handleRemove = (ind) => {
 		dispatch({ type: "remove", title: ind.title });
@@ -84,20 +79,16 @@ const Home = () => {
 						return (
 							<>
 								{ind.read ? (
-									<>
-										<h1 style={{ textDecoration: "line-through" }}>
-											{ind.title}
-										</h1>
-										<h2>{ind.author}</h2>
-										<button onClick={() => handleUnread(ind)}>Unread</button>
-									</>
+									<h1 style={{ textDecoration: "line-through" }}>
+										{ind.title}
+									</h1>
 								) : (
-									<>
-										<h1>{ind.title}</h1>
-										<h2>{ind.author}</h2>
-										<button onClick={() => handleRead(ind)}>Read</button>
-									</>
+									<h1>{ind.title}</h1>
 								)}
+								<h2>{ind.author}</h2>
+								<button onClick={() => handleRead(ind)}>
+									{ind.read ? "Unread" : "Read"}
+								</button>
 								<button onClick={() => handleRemove(ind)}>Remove</button>
 							</>
 						);
