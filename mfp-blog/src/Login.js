@@ -1,38 +1,36 @@
-import { useEffect, useState, useContext } from "react";
-import { BooksContext } from "./BooksContext";
+import { useContext, useEffect, useState } from "react";
+import { NamesContext } from "./NamesContext";
+import { Redirect } from "react-router-dom";
 const Login = () => {
-	const [name, setName] = useContext(BooksContext);
-	
-	// const [user, setUser] = useContext(BooksContext);
-	const [info, setInfo] = useState([]);
+	const [user, setUser] = useContext(NamesContext);
+	const [name, setName] = useState("");
+	const [signup, setSignup] = useState(false);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setName(e.target.name.value);
-	};
-
-	useEffect(() => {
-		fetch("/register", {
-			method: "POST",
+		setUser(name);
+		// console.log(name);
+		fetch("/login", {
+			method: "post",
 			headers: {
 				"Content-Type": "application/json",
-				// "Accept": "application/json"
 			},
-			body: JSON.stringify({
-				name,
-			}),
+			body: JSON.stringify({ user: name }),
 		})
 			.then((res) => res.json())
-			.then((result) => setInfo(result))
-			.catch((err) => console.log("error", err));
-	}, [name]);
+			.then((result) => {
+				console.log(result);
+				if (result !== "Name exists") setSignup(true);
+			})
+			.catch((err) => console.log(err));
+	};
 
+	if (signup) return <Redirect to="/" />;
 	return (
 		<>
-			<form onSubmit={(e) => handleSubmit(e)}>
-				<input placeholder="Enter your name" name="name" />
-				<button type="submit">Submit</button>
+			<h1>Login Page</h1>
+			<form onSubmit={handleSubmit}>
+				<input value={name} onChange={(e) => setName(e.target.value)}></input>
 			</form>
-			{info.length && info.map((inf) => <h1>{inf}</h1>)}
 		</>
 	);
 };

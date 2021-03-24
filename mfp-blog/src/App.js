@@ -1,31 +1,27 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./Navbar";
-import Home from "./Home";
-import Create from "./Create";
+import { NamesProvider } from "./NamesContext";
 import Login from "./Login";
-import { BooksProvider } from "./BooksContext";
-
+import Home from "./Home";
+import Authorised from "./Authorised";
+import Navbar from "./Navbar";
 function App() {
-	// const [loggedin, setLoggedin]=useContext("BooksContext");
 	return (
 		<Router>
-			<BooksProvider>
-				<div className="App">
-					<Navbar />
-					<Switch>
-						<Route exact path="/register">
-							<Login />
-						</Route>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route exact path="/Create">
-							<Create />
-						</Route>
-					</Switch>
-				</div>
-			</BooksProvider>
+			<NamesProvider>
+				<Navbar />
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route exact path="/Login">
+						<Login />
+					</Route>
+					<Route exact path="/Auth">
+						<Authorised />
+					</Route>
+				</Switch>
+			</NamesProvider>
 		</Router>
 	);
 }
